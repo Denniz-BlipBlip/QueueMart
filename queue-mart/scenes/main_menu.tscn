@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://bteontve7nlc"]
 
+[ext_resource type="Script" uid="uid://cx6sk177ihul1" path="res://scripts/main_menu_panels.gd" id="1_1ajci"]
 [ext_resource type="Texture2D" uid="uid://drwoauitwf7cq" path="res://assets/Top-Down_Retro_Interior/TopDownHouse_DoorsAndWindows.png" id="1_8ln24"]
 [ext_resource type="Texture2D" uid="uid://cgn1qla18euoo" path="res://assets/Top-Down_Retro_Interior/TopDownHouse_FloorsAndWalls.png" id="2_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://xhfy58kwnh2v" path="res://assets/Ranitaya’s 50+ City Essential Assets Pack (1)/Buildings/Pngs/Building2.png" id="3_oa1go"]
@@ -3146,7 +3147,7 @@ sources/1 = SubResource("TileSetAtlasSource_gw5y6")
 sources/2 = SubResource("TileSetAtlasSource_svtp6")
 sources/3 = SubResource("TileSetAtlasSource_1dfpl")
 
-[node name="MainMenu" type="Control" unique_id=1599003405]
+[node name="MainMenu" type="Control" unique_id=1599003405 node_paths=PackedStringArray("start_button", "highscore_button", "about_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -3157,6 +3158,12 @@ offset_right = 7.0
 offset_bottom = 21.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_1ajci")
+start_button = NodePath("startbutton/startbutton")
+highscore_button = NodePath("HighscoreButton/Highscorebutton")
+about_button = NodePath("About/About")
+game_scene = "uid://biwffqv45j2ka"
+about_scene = "uid://c32eq8hkmnbi"
 
 [node name="Layer 1" type="TileMapLayer" parent="." unique_id=89461749]
 position = Vector2(112, 52)
@@ -3192,11 +3199,11 @@ offset_bottom = 8.699997
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Button" type="Button" parent="startbutton" unique_id=2132570123]
+[node name="startbutton" type="Button" parent="startbutton" unique_id=2132570123]
 layout_mode = 2
 text = "Start"
 
-[node name="Highscorebutton" type="VBoxContainer" parent="." unique_id=32646653]
+[node name="HighscoreButton" type="VBoxContainer" parent="." unique_id=32646653]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.17300001
@@ -3210,7 +3217,7 @@ offset_bottom = 79.7
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Button" type="Button" parent="Highscorebutton" unique_id=1146109393]
+[node name="Highscorebutton" type="Button" parent="HighscoreButton" unique_id=1146109393]
 layout_mode = 2
 text = "Highscore
 "
@@ -3229,7 +3236,17 @@ offset_bottom = 146.7
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Button" type="Button" parent="About" unique_id=1725322251]
+[node name="About" type="Button" parent="About" unique_id=1725322251]
 layout_mode = 2
 text = "About
 "
+
+[node name="HighscorePanel" type="Panel" parent="." unique_id=1561410705]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CloseButton" type="Label" parent="HighscorePanel" unique_id=169134860]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
