@@ -19,6 +19,7 @@ extends Node2D
 
 var timer: Timer
 var scene_pool: Array[PackedScene] = []
+var pool_paths: Array[String] = []
 
 func _ready():
 	_load_pool()
@@ -33,21 +34,42 @@ func _ready():
 
 func _load_pool():
 	scene_pool.clear()
+	pool_paths.clear()
 	for scene in customer_scenes:
 		if scene:
-			scene_pool.append(scene)
-	if customers_folder == "":
-		return
-	var dir = DirAccess.open(customers_folder)
+			_add_scene(scene)
+	if customers_folder != "":
+		_scan_folder(customers_folder)
+	var names: Array[String] = []
+	for path in pool_paths:
+		names.append(path.get_file().get_basename())
+	print("Spawner: %d customer scenes ready: %s" % [scene_pool.size(), ", ".join(names)])
+
+func _scan_folder(path: String):
+	var dir = DirAccess.open(path)
 	if not dir:
-		push_warning("Spawner: cannot open folder '%s'." % customers_folder)
+		push_warning("Spawner: cannot open folder '%s'." % path)
 		return
+	for sub_folder in dir.get_directories():
+		_scan_folder(path.path_join(sub_folder))
 	for file_name in dir.get_files():
 		var clean_name = file_name.trim_suffix(".remap")
 		if clean_name.ends_with(".tscn"):
-			var loaded = load(customers_folder.path_join(clean_name))
+			var loaded = load(path.path_join(clean_name))
 			if loaded is PackedScene:
-				scene_pool.append(loaded)
+				_add_scene(loaded)
+
+func _add_scene(scene: PackedScene):
+	if scene.resource_path in pool_paths:
+		return
+	var probe = scene.instantiate()
+	var valid = "exit_position" in probe
+	probe.free()
+	if valid:
+		scene_pool.append(scene)
+		pool_paths.append(scene.resource_path)
+	else:
+		push_warning("Spawner: '%s' has no customer.gd on its root node, skipped." % scene.resource_path)
 
 func _queue_ok() -> bool:
 	return queue != null and queue.has_method("join")

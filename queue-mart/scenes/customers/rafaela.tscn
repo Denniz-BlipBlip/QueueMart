@@ -2,6 +2,25 @@
 
 [ext_resource type="Script" uid="uid://c1ko6t0lpno4x" path="res://scripts/customer.gd" id="1_3nwte"]
 [ext_resource type="Texture2D" uid="uid://uwteit4fs34l" path="res://assets/character_sprites/Rafaela_sprites.png" id="1_k30pk"]
+[ext_resource type="Script" uid="uid://dk1qrcqci5brb" path="res://scripts/mover.gd" id="3_stc8o"]
+[ext_resource type="Script" uid="uid://cnv6p6itk6esb" path="res://scripts/shopper.gd" id="4_38kxi"]
+[ext_resource type="Script" uid="uid://75rgil05mmno" path="res://scripts/animator.gd" id="5_1j31d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqnim"]
+atlas = ExtResource("1_k30pk")
+region = Rect2(0, 2118, 451, 706)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fh68v"]
+atlas = ExtResource("1_k30pk")
+region = Rect2(902, 0, 451, 706)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bit1"]
+atlas = ExtResource("1_k30pk")
+region = Rect2(902, 706, 451, 706)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wethp"]
+atlas = ExtResource("1_k30pk")
+region = Rect2(902, 1412, 451, 706)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fmgpn"]
 atlas = ExtResource("1_k30pk")
@@ -65,6 +84,38 @@ region = Rect2(1353, 1412, 451, 706)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3nwte"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xqnim")
+}],
+"loop": 1,
+"name": &"idle_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fh68v")
+}],
+"loop": 1,
+"name": &"idle_front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bit1")
+}],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wethp")
+}],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fmgpn")
@@ -136,15 +187,34 @@ animations = [{
 [node name="rafaela" type="CharacterBody2D" unique_id=885695088 node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_3nwte")
 sprite = NodePath("AnimatedSprite2D")
+skins = null
+speed = null
+speed_variation = null
+stop_distance = null
+max_walk_time = null
+use_avoidance = null
+avoidance_radius = null
+auto_leave = null
+wait_time_min = null
+wait_time_max = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1181233069]
 position = Vector2(0, -20)
 scale = Vector2(0.05473948, 0.05524081)
 sprite_frames = SubResource("SpriteFrames_3nwte")
-animation = &"walk_front"
-frame = 3
-frame_progress = 0.59299225
+animation = &"idle_back"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1844992678]
 position = Vector2(0, -17)
 shape = SubResource("CircleShape2D_q8qgv")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=145599682]
+
+[node name="mover" type="Node" parent="." unique_id=442094107]
+script = ExtResource("3_stc8o")
+
+[node name="shopper" type="Node" parent="." unique_id=398769411]
+script = ExtResource("4_38kxi")
+
+[node name="animator" type="Node" parent="." unique_id=1984250051]
+script = ExtResource("5_1j31d")
